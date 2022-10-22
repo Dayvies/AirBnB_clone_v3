@@ -1,0 +1,63 @@
+#!/usr/bin/python3
+"""handles users"""
+from models import storage
+from models.user import User
+from api.v1.views import app_views
+from flask import request, jsonify, abort
+
+
+@app_views.route('/users', strict_slashes=False, methods=['POST', 'GET'])
+@app_views.route('/users/<user_id>', strict_slashes=False, methods=['POST', 'GET', 'DELETE', 'PUT'])
+def user(user_id=None):
+    """retreive users"""
+    if request.method == 'GET':
+        if user_id is None:
+            dict1 = storage.all(User)
+            list1 = []
+            for k, v in dict1.items():
+                list1.append(v.to_dict())
+            return jsonify(list1)
+        else:
+            obj = storage.get(User, user_id)
+            if obj is None:
+                abort(404)
+            else:
+                return jsonify(obj.to_dict())
+    if request.method == 'DELETE':
+        if user_id is None:
+            abort(404)
+        else:
+            obj = storage.get(User, user_id)
+            if obj is None:
+                abort(404)
+            else:
+                storage.delete(obj)
+                storage.save()
+                return {}, 200
+    if request.method == 'POST':
+        try:
+            data = request.get_json()
+        except Exception:
+            return "Not a JSON", 400
+        if "name" not in data.keys():
+            return "Missing name", 400
+        new_user = User(**data)
+        new_user.save()
+        storage.reload()
+        return jsonify(new_user.to_dict()), 201
+    if request.method == 'PUT':
+        obj = storage.get(User, user_id)
+        if obj is None:
+            abort(404)
+        else:
+            try:
+                data = request.get_json()
+            except Exception:
+                return "Not a JSON", 400
+
+            for k, v in data.items():
+                if k != 'id' and k != 'created_at' and k != 'updated_at':
+                    setattr(obj, k, v)
+            obj.save()
+            storage.reload()
+            return jsonify(obj.to_dict()), 200
