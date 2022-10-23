@@ -8,7 +8,7 @@ from flask import request, jsonify, abort, make_response
 
 @app_views.route('/states', strict_slashes=False, methods=['POST', 'GET'])
 @app_views.route('/states/<state_id>', strict_slashes=False,
-                 methods=['POST', 'GET', 'DELETE', 'PUT'])
+                 methods=['GET', 'DELETE', 'PUT'])
 def state(state_id=None):
     """retreive states"""
     if request.method == 'GET':
@@ -44,7 +44,6 @@ def state(state_id=None):
             return make_response(jsonify({"error": "Missing name"}), 400)
         new_state = State(**data)
         new_state.save()
-        storage.reload()
         return make_response(jsonify(new_state.to_dict()), 201)
     if request.method == 'PUT':
         obj = storage.get(State, state_id)
@@ -60,5 +59,4 @@ def state(state_id=None):
                 if k != 'id' and k != 'created_at' and k != 'updated_at':
                     setattr(obj, k, v)
             obj.save()
-            storage.reload()
             return jsonify(obj.to_dict()), 200
