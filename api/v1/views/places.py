@@ -29,11 +29,10 @@ def city_places(city_id):
             try:
                 data = request.get_json()
             except Exception:
-                #abort(400, description="Not a JSON")
-                pass
-            if "user_id" not in data:
+                abort(400, description="Not a JSON")
+            if "user_id" not in data.keys():
                 abort(400, description="Missing user_id")
-            if "name" not in data:
+            if "name" not in data.keys():
                 abort(400, description="Missing name")
             data.update({'city_id': city_id})
             new_place = Place(**data)
