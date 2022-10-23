@@ -24,6 +24,12 @@ def not_found(error):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
+@app.errorhandler(400)
+def json_name(error):
+    """not json or name missing"""
+    return make_response(jsonify({"error": str(error.description)}), 400)
+
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     """end session of db"""
