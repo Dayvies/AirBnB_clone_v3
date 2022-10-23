@@ -39,9 +39,9 @@ def state(state_id=None):
         try:
             data = request.get_json()
         except Exception:
-            return "Not a JSON", 400
+            return jsonify({"error": "Not a JSON"}), 400
         if "name" not in data.keys():
-            return "Missing name", 400
+            return jsonify({"error": "Missing name"}), 400
         new_state = State(**data)
         new_state.save()
         storage.reload()
@@ -54,7 +54,7 @@ def state(state_id=None):
             try:
                 data = request.get_json()
             except Exception:
-                return "Not a JSON", 400
+                return jsonify({"error": "Not a JSON"}), 400
 
             for k, v in data.items():
                 if k != 'id' and k != 'created_at' and k != 'updated_at':

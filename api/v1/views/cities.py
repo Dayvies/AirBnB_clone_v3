@@ -64,7 +64,7 @@ def cities(city_id):
                 data = request.get_json()
             except Exception:
                 return "Not a JSON", 400
-            list2 = ['created_at','updated_at','id','state_id']
+            list2 = ['created_at', 'updated_at', 'id', 'state_id']
             for k, v in data.items():
                 if k not in list2:
                     setattr(obj, k, v)

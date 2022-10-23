@@ -9,7 +9,7 @@ from flask import request, jsonify, abort
 
 @app_views.route('/cities/<city_id>/places', strict_slashes=False, methods=['POST', 'GET'])
 def city_places(city_id):
-    """get cities depending on city"""
+    """get places depending on city"""
     if request.method == 'GET':
         city = storage.get(City, city_id)
         if city is None:
@@ -40,7 +40,7 @@ def city_places(city_id):
 
 @app_views.route('/places/<place_id>', strict_slashes=False, methods=['POST', 'GET', 'DELETE'])
 def places(place_id):
-    """get cities on id"""
+    """get places on id"""
     if request.method == 'GET':
         place = storage.get(Place, place_id)
         if place is None:
@@ -64,7 +64,7 @@ def places(place_id):
                 data = request.get_json()
             except Exception:
                 return "Not a JSON", 400
-            list2 = ['id','user_id','city_id','created_at','update_at']
+            list2 = ['id', 'user_id', 'city_id', 'created_at', 'update_at']
             for k, v in data.items():
                 if k not in list2:
                     setattr(obj, k, v)
