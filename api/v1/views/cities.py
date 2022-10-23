@@ -53,8 +53,8 @@ def cities(city_id):
         if obj is None:
             abort(404)
         else:
-            storage.delete(obj)
-            storage.save()
+            #storage.delete(obj)
+            #storage.save()
             return {}, 200
     if request.method == 'PUT':
         obj = storage.get(City, city_id)
@@ -69,5 +69,5 @@ def cities(city_id):
             for k, v in data.items():
                 if k not in list2:
                     setattr(obj, k, v)
-            #obj.save()
+            obj.save()
             return jsonify(obj.to_dict()), 200
