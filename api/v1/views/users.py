@@ -39,11 +39,8 @@ def user(user_id=None):
         try:
             data = request.get_json()
         except Exception:
-            return "Not a JSON", 400
-        if "email" not in data.keys():
-            abort(400, description="Missing email")
-        if "password" not in data.keys():
-            abort(400, description="Missing password")
+            abort(400, description="Not a JSON")
+
         new_user = User(**data)
         new_user.save()
         return jsonify(new_user.to_dict()), 201
