@@ -45,7 +45,7 @@ def cities(city_id):
     if request.method == 'GET':
         city = storage.get(City, city_id)
         if city is None:
-            abort(404)
+            abort(400)
         else:
             return jsonify(city.to_dict())
     if request.method == 'DELETE':
@@ -53,8 +53,8 @@ def cities(city_id):
         if obj is None:
             abort(404)
         else:
-            #storage.delete(obj)
-            #storage.save()
+            storage.delete(obj)
+            storage.save()
             return {}, 200
     if request.method == 'PUT':
         obj = storage.get(City, city_id)
