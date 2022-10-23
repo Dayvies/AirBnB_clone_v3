@@ -8,7 +8,7 @@ from flask import request, jsonify, abort
 
 @app_views.route('/states', strict_slashes=False, methods=['POST', 'GET'])
 @app_views.route('/states/<state_id>', strict_slashes=False,
-                  methods=['POST', 'GET', 'DELETE', 'PUT'])
+                 methods=['POST', 'GET', 'DELETE', 'PUT'])
 def state(state_id=None):
     """retreive states"""
     if request.method == 'GET':
