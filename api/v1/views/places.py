@@ -19,8 +19,9 @@ def city_places(city_id):
             places = city.places
             list1 = []
             for place in places:
-                #list1.append(place.to_dict())
-            return jsonify(list1)
+                list1.append(place.to_dict())
+            #return jsonify(list1)
+            return ('debug')
     if request.method == 'POST':
         city = storage.get(City, city_id)
         if city is None:
