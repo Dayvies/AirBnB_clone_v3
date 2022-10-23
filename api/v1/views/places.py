@@ -14,7 +14,8 @@ def city_places(city_id):
     if request.method == 'GET':
         city = storage.get(City, city_id)
         if city is None:
-            abort(404)
+            #abort(404)
+            return 'No'
         else:
             places = city.places
             list1 = []
