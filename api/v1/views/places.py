@@ -20,8 +20,7 @@ def city_places(city_id):
             list1 = []
             for place in places:
                 list1.append(place.to_dict())
-            #return jsonify(list1)
-            return ('debug')
+            return jsonify(list1)
     if request.method == 'POST':
         city = storage.get(City, city_id)
         if city is None:
@@ -30,7 +29,8 @@ def city_places(city_id):
             try:
                 data = request.get_json()
             except Exception:
-                abort(400, description="Not a JSON")
+                #abort(400, description="Not a JSON")
+                pass
             if "user_id" not in data:
                 abort(400, description="Missing user_id")
             if "name" not in data:
