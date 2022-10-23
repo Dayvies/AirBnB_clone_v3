@@ -28,17 +28,18 @@ def city_places(city_id):
             try:
                 data = request.get_json()
             except Exception:
-                return "Not a JSON", 400
+                abort(400, description="Not a JSON")
             if "user_id" not in data:
-                return "Missing user_id", 400
+                abort(400, description="Missing user_id")
             if "name" not in data:
-                return "Missing name", 400
+                abort(400, description="Missing name")
             data.update({'city_id': city_id})
             new_place = Place(**data)
+            new_place.save()
             return jsonify(new_place.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>', strict_slashes=False, methods=['POST', 'GET', 'DELETE'])
+@app_views.route('/places/<place_id>', strict_slashes=False, methods=['PUT', 'GET', 'DELETE'])
 def places(place_id):
     """get places on id"""
     if request.method == 'GET':
@@ -63,11 +64,10 @@ def places(place_id):
             try:
                 data = request.get_json()
             except Exception:
-                return "Not a JSON", 400
+                abort(400, description ="Not a JSON")
             list2 = ['id', 'user_id', 'city_id', 'created_at', 'update_at']
             for k, v in data.items():
                 if k not in list2:
                     setattr(obj, k, v)
             obj.save()
-            storage.reload()
             return jsonify(obj.to_dict()), 200

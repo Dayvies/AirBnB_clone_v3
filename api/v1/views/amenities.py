@@ -7,7 +7,7 @@ from flask import request, jsonify, abort
 
 
 @app_views.route('/amenities', strict_slashes=False, methods=['POST', 'GET'])
-@app_views.route('/amenities/<amenity_id>', strict_slashes=False, methods=['POST', 'GET', 'DELETE', 'PUT'])
+@app_views.route('/amenities/<amenity_id>', strict_slashes=False, methods=['GET', 'DELETE', 'PUT'])
 def amenity(amenity_id=None):
     """retreive states"""
     if request.method == 'GET':
@@ -38,12 +38,11 @@ def amenity(amenity_id=None):
         try:
             data = request.get_json()
         except Exception:
-            return "Not a JSON", 400
+            abort(400, description="Not a JSON")
         if "name" not in data.keys():
-            return "Missing name", 400
+            abort(400, description="Missing name")
         new_state = Amenity(**data)
         new_state.save()
-        storage.reload()
         return jsonify(new_state.to_dict()), 201
     if request.method == 'PUT':
         obj = storage.get(Amenity, amenity_id)
@@ -53,11 +52,10 @@ def amenity(amenity_id=None):
             try:
                 data = request.get_json()
             except Exception:
-                return "Not a JSON", 400
+                abort(400, description="Not a JSON")
 
             for k, v in data.items():
                 if k != 'id' and k != 'created_at' and k != 'updated_at':
                     setattr(obj, k, v)
             obj.save()
-            storage.reload()
             return jsonify(obj.to_dict()), 200
