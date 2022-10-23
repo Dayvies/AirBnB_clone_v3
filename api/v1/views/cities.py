@@ -34,11 +34,12 @@ def state_cities(state_id):
                 return "Missing name", 400
             data.update({'state_id': state_id})
             new_city = City(**data)
+            new_city.save()
             return jsonify(new_city.to_dict()), 201
 
 
 @app_views.route('/cities/<city_id>', strict_slashes=False,
-                 methods=['POST', 'GET', 'DELETE'])
+                 methods=['PUT', 'GET', 'DELETE'])
 def cities(city_id):
     """get cities on id"""
     if request.method == 'GET':
@@ -69,5 +70,4 @@ def cities(city_id):
                 if k not in list2:
                     setattr(obj, k, v)
             obj.save()
-            storage.reload()
             return jsonify(obj.to_dict()), 200
