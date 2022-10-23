@@ -7,7 +7,8 @@ from flask import request, jsonify, abort
 
 
 @app_views.route('/users', strict_slashes=False, methods=['POST', 'GET'])
-@app_views.route('/users/<user_id>', strict_slashes=False, methods=['POST', 'GET', 'DELETE', 'PUT'])
+@app_views.route('/users/<user_id>', strict_slashes=False,
+                 methods=['GET', 'DELETE', 'PUT'])
 def user(user_id=None):
     """retreive users"""
     if request.method == 'GET':
@@ -40,10 +41,9 @@ def user(user_id=None):
         except Exception:
             return "Not a JSON", 400
         if "name" not in data.keys():
-            return "Missing name", 400
+            abort(400, description="Missing name")
         new_user = User(**data)
         new_user.save()
-        storage.reload()
         return jsonify(new_user.to_dict()), 201
     if request.method == 'PUT':
         obj = storage.get(User, user_id)
@@ -53,8 +53,7 @@ def user(user_id=None):
             try:
                 data = request.get_json()
             except Exception:
-                return "Not a JSON", 400
-
+                abort(400, description="Not a JSON")
             for k, v in data.items():
                 if k != 'id' and k != 'created_at' and k != 'updated_at':
                     setattr(obj, k, v)

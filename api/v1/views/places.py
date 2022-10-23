@@ -7,7 +7,8 @@ from api.v1.views import app_views
 from flask import request, jsonify, abort
 
 
-@app_views.route('/cities/<city_id>/places', strict_slashes=False, methods=['POST', 'GET'])
+@app_views.route('/cities/<city_id>/places', strict_slashes=False,
+                 methods=['POST', 'GET'])
 def city_places(city_id):
     """get places depending on city"""
     if request.method == 'GET':
@@ -39,7 +40,8 @@ def city_places(city_id):
             return jsonify(new_place.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>', strict_slashes=False, methods=['PUT', 'GET', 'DELETE'])
+@app_views.route('/places/<place_id>', strict_slashes=False,
+                 methods=['PUT', 'GET', 'DELETE'])
 def places(place_id):
     """get places on id"""
     if request.method == 'GET':
@@ -64,7 +66,7 @@ def places(place_id):
             try:
                 data = request.get_json()
             except Exception:
-                abort(400, description ="Not a JSON")
+                abort(400, description="Not a JSON")
             list2 = ['id', 'user_id', 'city_id', 'created_at', 'update_at']
             for k, v in data.items():
                 if k not in list2:
