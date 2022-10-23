@@ -40,7 +40,10 @@ def user(user_id=None):
             data = request.get_json()
         except Exception:
             abort(400, description="Not a JSON")
-
+        if "email" not in data.keys():
+            abort(400, description="Missing email")
+        if "password" not in data.keys():
+            abort(400, description="Missing password")
         new_user = User(**data)
         new_user.save()
         return jsonify(new_user.to_dict()), 201
@@ -53,7 +56,7 @@ def user(user_id=None):
                 data = request.get_json()
             except Exception:
                 abort(400, description="Not a JSON")
-            list2= ['id','email','created_at','updated_at']
+            list2 = ['id', 'email', 'created_at', 'updated_at']
             for k, v in data.items():
                 if k not in list2:
                     setattr(obj, k, v)
