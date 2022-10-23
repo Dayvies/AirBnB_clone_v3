@@ -31,15 +31,15 @@ def state_cities(state_id):
             except Exception:
                 return "Not a JSON", 400
             if "name" not in data:
-                return "Missing name", 400
+                return jsonify({"error": "Missing name"}), 400
             data.update({'state_id': state_id})
             new_city = City(**data)
             new_city.save()
             return jsonify(new_city.to_dict()), 201
 
 
-@app_views.route('/cities/<city_id>', strict_slashes=False,
-                 methods=['PUT', 'GET', 'DELETE'])
+@ app_views.route('/cities/<city_id>', strict_slashes=False,
+                  methods=['PUT', 'GET', 'DELETE'])
 def cities(city_id):
     """get cities on id"""
     if request.method == 'GET':
@@ -64,10 +64,10 @@ def cities(city_id):
             try:
                 data = request.get_json()
             except Exception:
-                return "Not a JSON", 400
+                return jsonify({"error": "Not a JSON"}), 400
             list2 = ['created_at', 'updated_at', 'id', 'state_id']
             for k, v in data.items():
                 if k not in list2:
                     setattr(obj, k, v)
-            obj.save()
+            #obj.save()
             return jsonify(obj.to_dict()), 200
