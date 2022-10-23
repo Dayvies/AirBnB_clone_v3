@@ -18,8 +18,8 @@ def city_places(city_id):
         else:
             places = city.places
             list1 = []
-            for city in places:
-                list1.append(city.to_dict())
+            for place in places:
+                list1.append(place.to_dict())
             return jsonify(list1)
     if request.method == 'POST':
         city = storage.get(City, city_id)
@@ -57,7 +57,7 @@ def places(place_id):
         else:
             storage.delete(obj)
             storage.save()
-            return {}, 200
+            return jsonify({}), 200
     if request.method == 'PUT':
         obj = storage.get(Place, place_id)
         if obj is None:
@@ -67,7 +67,7 @@ def places(place_id):
                 data = request.get_json()
             except Exception:
                 abort(400, description="Not a JSON")
-            list2 = ['id', 'user_id', 'city_id', 'created_at', 'update_at']
+            list2 = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
             for k, v in data.items():
                 if k not in list2:
                     setattr(obj, k, v)
