@@ -16,9 +16,9 @@ def city_places(city_id):
         if city is None:
             abort(404)
         else:
-            cities = city.cities
+            places = city.places
             list1 = []
-            for city in cities:
+            for city in places:
                 list1.append(city.to_dict())
             return jsonify(list1)
     if request.method == 'POST':
