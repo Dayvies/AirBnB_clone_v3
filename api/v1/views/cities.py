@@ -29,9 +29,9 @@ def state_cities(state_id):
             try:
                 data = request.get_json()
             except Exception:
-                abort(400, description = "Not a JSON")
+                abort(400, description="Not a JSON")
             if "name" not in data:
-               abort(400, description = "Missing name")
+                abort(400, description="Missing name")
             data.update({'state_id': state_id})
             new_city = City(**data)
             new_city.save()
@@ -64,7 +64,7 @@ def cities(city_id):
             try:
                 data = request.get_json()
             except Exception:
-                abort(400, description ="Not a JSON")
+                abort(400, description="Not a JSON")
             list2 = ['created_at', 'updated_at', 'id', 'state_id']
             for k, v in data.items():
                 if k not in list2:
