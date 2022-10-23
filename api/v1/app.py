@@ -17,11 +17,13 @@ if getenv("HBNB_API_HOST") is not None:
 if getenv("HBNB_API_PORT") is not None:
     port = getenv("HBNB_API_PORT")
 
+
 @app.errorhandler(404)
 def not_found(error):
     """ json 404 page """
     return make_response(jsonify({"error": "Not found"}), 404)
-    
+
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     """end session of db"""
