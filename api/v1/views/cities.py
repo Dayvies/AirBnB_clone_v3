@@ -45,13 +45,13 @@ def cities(city_id):
     if request.method == 'GET':
         city = storage.get(City, city_id)
         if city is None:
-            abort(400)
+            abort(404)
         else:
             return jsonify(city.to_dict())
     if request.method == 'DELETE':
         obj = storage.get(City, city_id)
         if obj is None:
-            abort(404)
+            abort(400)
         else:
             storage.delete(obj)
             storage.save()
