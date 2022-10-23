@@ -64,7 +64,7 @@ def cities(city_id):
             try:
                 data = request.get_json()
             except Exception:
-                return jsonify({"error": "Not a JSON"}), 404
+                return jsonify({"error": "Not a JSON"}), 200
             list2 = ['created_at', 'updated_at', 'id', 'state_id']
             for k, v in data.items():
                 if k not in list2:
