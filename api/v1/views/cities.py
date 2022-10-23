@@ -51,7 +51,7 @@ def cities(city_id):
     if request.method == 'DELETE':
         obj = storage.get(City, city_id)
         if obj is None:
-            abort(400)
+            abort(404)
         else:
             storage.delete(obj)
             storage.save()
@@ -59,7 +59,7 @@ def cities(city_id):
     if request.method == 'PUT':
         obj = storage.get(City, city_id)
         if obj is None:
-            abort(404)
+            abort(400)
         else:
             try:
                 data = request.get_json()
