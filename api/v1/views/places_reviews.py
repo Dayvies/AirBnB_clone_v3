@@ -34,7 +34,7 @@ def places_reviews(place_id):
             if "user_id" not in data.keys():
                 abort(400, description="Missing user_id")
             if storage.get(User, data.get('user_id')) is None:
-                abort(400)
+                abort(404)
             if 'text' not in data.keys():
                 abort(400, description="Missing text")
             data.update({'place_id': place_id})
