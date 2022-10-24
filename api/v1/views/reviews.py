@@ -67,7 +67,7 @@ def get_reviews(review_id):
                 data = request.get_json()
             except Exception:
                 abort(400, description="Not a JSON")
-            list2 = ['id', 'user_id', 'created_at', 'updated_at']
+            list2 = ['id', 'user_id', 'created_at', 'updated_at', 'place_id']
             for k, v in data.items():
                 if k not in list2:
                     setattr(obj, k, v)
