@@ -3,6 +3,7 @@
 from models import storage
 from models.city import City
 from models.place import Place
+from models.user import User
 from api.v1.views import app_views
 from flask import request, jsonify, abort
 
@@ -32,6 +33,8 @@ def city_places(city_id):
                 abort(400, description="Not a JSON")
             if "user_id" not in data.keys():
                 abort(400, description="Missing user_id")
+            if storage.get(User, data.get('user_id')) is None:
+                abort(404)
             if "name" not in data.keys():
                 abort(400, description="Missing name")
             data.update({'city_id': city_id})
