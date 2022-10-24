@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""places_reviews route"""
 from models import storage
 from models.place import Place
 from models.review import Review
@@ -7,7 +8,8 @@ from api.v1.views import app_views
 from flask import request, jsonify, abort
 
 
-@app_views.route('/places/<place_id>/reviews', strict_slashes=False, methods=['POST', 'GET'])
+@app_views.route('/places/<place_id>/reviews',
+                 strict_slashes=False, methods=['POST', 'GET'])
 def places_reviews(place_id):
     """get reviews according to places"""
     if request.method == 'GET':
@@ -41,7 +43,8 @@ def places_reviews(place_id):
             return jsonify(new_review.to_dict()), 201
 
 
-@app_views.route('/reviews/<review_id>', strict_slashes=False, methods=['PUT', 'DELETE', 'GET'])
+@app_views.route('/reviews/<review_id>', strict_slashes=False,
+                 methods=['PUT', 'DELETE', 'GET'])
 def get_reviews(review_id):
     """reviews using review_id"""
     if request.method == 'GET':
