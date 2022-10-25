@@ -29,6 +29,8 @@ def places_reviews(place_id):
         else:
             try:
                 data = request.get_json()
+                if data is None:
+                    raise Exception("none data")
             except Exception:
                 abort(400, description="Not a JSON")
             if "user_id" not in data.keys():
@@ -68,6 +70,8 @@ def get_reviews(review_id):
         else:
             try:
                 data = request.get_json()
+                if data is None:
+                    raise Exception("none data")
             except Exception:
                 abort(400, description="Not a JSON")
             list2 = ['id', 'user_id', 'created_at', 'updated_at', 'place_id']

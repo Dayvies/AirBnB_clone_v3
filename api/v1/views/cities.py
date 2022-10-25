@@ -28,6 +28,8 @@ def state_cities(state_id):
         else:
             try:
                 data = request.get_json()
+                if data is None:
+                    raise Exception("none data")
             except Exception:
                 abort(400, description="Not a JSON")
             if "name" not in data:
@@ -63,6 +65,8 @@ def cities(city_id):
         else:
             try:
                 data = request.get_json()
+                if data is None:
+                    raise Exception("none data")
             except Exception:
                 abort(400, description="Not a JSON")
             list2 = ['created_at', 'updated_at', 'id', 'state_id']

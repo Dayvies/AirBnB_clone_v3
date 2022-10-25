@@ -38,6 +38,8 @@ def state(state_id=None):
     if request.method == 'POST':
         try:
             data = request.get_json()
+            if data is None:
+                raise Exception("none data")
         except Exception:
             abort(400, description="Not a JSON")
         if "name" not in data.keys():
@@ -52,6 +54,8 @@ def state(state_id=None):
         else:
             try:
                 data = request.get_json()
+                if data is None:
+                    raise Exception("none data")
             except Exception:
                 abort(400, description="Not a JSON")
 

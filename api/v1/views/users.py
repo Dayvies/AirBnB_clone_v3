@@ -38,6 +38,8 @@ def user(user_id=None):
     if request.method == 'POST':
         try:
             data = request.get_json()
+            if data is None:
+                raise Exception("none data")
         except Exception:
             abort(400, description="Not a JSON")
         if "email" not in data.keys():
@@ -54,6 +56,8 @@ def user(user_id=None):
         else:
             try:
                 data = request.get_json()
+                if data is None:
+                    raise Exception("none data")
             except Exception:
                 abort(400, description="Not a JSON")
             list2 = ['id', 'email', 'created_at', 'updated_at']
